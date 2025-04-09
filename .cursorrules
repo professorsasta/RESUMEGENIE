@@ -1,0 +1,38 @@
+# Instructions
+
+# Scratchpad
+
+## Current Task: Setting up new-resume-genie project
+
+Progress:
+[X] Initialize git repository
+[ ] Set up basic project structure
+[ ] Add initial files (README.md, .gitignore, etc.)
+[ ] Configure development environment
+[ ] Set up dependency management
+
+Notes:
+- Using Windows PowerShell environment
+- Project directory: D:/mission programing/new-resume-genie/
+
+### Analysis:
+1. Previous repository was deleted from GitHub
+2. Files exist in local repository under professorsasta account
+3. Issue with .gitattributes file being pushed repeatedly
+4. New repository "RESUMEGENIE" created and ready
+
+### Action Plan:
+[ ] 1. Find and verify the correct local repository
+    - Search for repository location
+    - Verify contents are complete project files
+[ ] 2. Check repository state
+    - Examine git status
+    - Review git history
+    - Verify correct files present
+[ ] 3. Setup connection to new repository
+    - Configure remote
+    - Verify remote setup
+[ ] 4. Prepare and push code
+    - Review files to be committed
+    - Handle .gitattributes issue
+    - Push to new repository 
