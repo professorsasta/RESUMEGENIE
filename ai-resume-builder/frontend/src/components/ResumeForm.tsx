@@ -1,82 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Form, Button, Alert, Container, Row, Col, Card } from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { FormData, Experience, Education, Project, Certification, Achievement, Activity, Language } from '../types';
 
-interface Experience {
-  company: string;
-  title: string;
-  dates: string;
-  description: string;
-}
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
-interface Education {
-  school: string;
-  degree: string;
-  graduationDate: string;
-  gpa?: string;
-}
-
-interface Project {
-  title: string;
-  description: string;
-  technologies: string;
-  link?: string;
-}
-
-interface Certification {
-  name: string;
-  issuer: string;
-  date: string;
-  link?: string;
-}
-
-interface Achievement {
-  title: string;
-  date: string;
-  description: string;
-}
-
-interface Activity {
-  title: string;
-  organization: string;
-  date: string;
-  description: string;
-}
-
-interface Language {
-  name: string;
-  proficiency: string;
-}
-
-interface Style {
-  colorScheme: string;
-  fontFamily: string;
-  fontSize: string;
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  location: string;
-  summary: string;
-  skills: string[];
-  experience: Experience[];
-  education: Education[];
-  projects: Project[];
-  certifications: Certification[];
-  achievements: Achievement[];
-  activities: Activity[];
-  languages: Language[];
-  hobbies: string[];
-  technicalSkills: string[];
-  softSkills: string[];
-  style: Style;
-}
-
-const API_BASE_URL = 'http://localhost:5000';
-
-const ResumeForm: React.FC = () => {
+const ResumeForm = (): JSX.Element => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -130,13 +59,14 @@ const ResumeForm: React.FC = () => {
       fontSize: 'normal'
     }
   });
-  const [newSkill, setNewSkill] = useState('');
-  const [newTechnicalSkill, setNewTechnicalSkill] = useState('');
-  const [newSoftSkill, setNewSoftSkill] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState('');
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const [downloadUrl, setDownloadUrl] = useState<string>('');
+  const [newSkill, setNewSkill] = useState<string>('');
+  const [newTechnicalSkill, setNewTechnicalSkill] = useState<string>('');
+  const [newSoftSkill, setNewSoftSkill] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -310,7 +240,7 @@ const ResumeForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -318,16 +248,13 @@ const ResumeForm: React.FC = () => {
     setDownloadUrl('');
 
     try {
-      console.log('Sending request to:', `${API_BASE_URL}/generate`);
-      console.log('Request data:', formData);
-      
-      const response = await axios.post(`${API_BASE_URL}/generate`, formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      console.log('Response received:', response.data);
+      interface GenerateResponse {
+        message?: string;
+        downloadUrl?: string;
+        error?: string;
+      }
+
+      const response: AxiosResponse<GenerateResponse> = await axios.post(`${API_BASE_URL}/generate`, formData);
       
       if (response.data.message) {
         setSuccess(true);
@@ -357,7 +284,7 @@ const ResumeForm: React.FC = () => {
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownload = async (): Promise<void> => {
     if (!downloadUrl) {
       setError('No resume available for download');
       return;
@@ -979,6 +906,6 @@ const ResumeForm: React.FC = () => {
       </Form>
     </Container>
   );
-};
+}
 
 export default ResumeForm; 

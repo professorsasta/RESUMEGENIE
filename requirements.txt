@@ -1,0 +1,8 @@
+flask==2.0.1
+flask-cors==3.0.10
+python-docx==0.8.11
+requests==2.26.0
+python-dotenv==0.19.0
+pdfkit==1.0.0
+logging==0.5.1.2
+uuid==1.30 
